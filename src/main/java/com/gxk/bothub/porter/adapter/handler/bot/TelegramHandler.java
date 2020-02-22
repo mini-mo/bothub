@@ -1,17 +1,14 @@
 package com.gxk.bothub.porter.adapter.handler.bot;
 
+import com.gxk.bothub.domain.Content;
 import com.gxk.bothub.domain.Handler;
 import com.gxk.bothub.domain.Hub;
-import com.gxk.bothub.domain.TextContent;
-import com.gxk.bothub.domain.Content;
 import com.gxk.bothub.domain.ImTo;
 import com.gxk.bothub.domain.Input;
+import com.gxk.bothub.domain.TextContent;
 import com.gxk.bothub.domain.To;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.TelegramBot.Builder;
-import com.pengrad.telegrambot.model.Message;
-import com.pengrad.telegrambot.model.MessageEntity;
-import com.pengrad.telegrambot.model.MessageEntity.Type;
 import com.pengrad.telegrambot.request.SendMessage;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -33,22 +30,6 @@ public class TelegramHandler implements Handler {
   public TelegramHandler() {
     String botToken = "1066789440:AAGnuE7wz05l47ZzQQ_JReZGdqusUxT3mrQ";
     bot = new Builder(botToken).okHttpClient(client("127.0.0.1", 8001)).build();
-
-    // Register for updates
-//    bot.setUpdatesListener(updates -> {
-//      for (Update update : updates) {
-//        Message message = update.message();
-//        boolean mention = isMention(message);
-//        if (!mention) {
-//          continue;
-//        }
-//        Chat chat = message.chat();
-//        long chatId = chat.id();
-//        SendResponse response = bot.execute(new SendMessage(chatId, "Hello!"));
-//      }
-    // return id of last processed update or confirm them all
-//      return UpdatesListener.CONFIRMED_UPDATES_ALL;
-//    });
   }
 
   @Override
@@ -65,19 +46,6 @@ public class TelegramHandler implements Handler {
       }
       bot.execute(new SendMessage(chatId, text));
     }
-  }
-
-  private static boolean isMention(Message message) {
-    if (message == null || message.entities() == null || message.entities().length == 0) {
-      return false;
-    }
-
-    for (MessageEntity entity : message.entities()) {
-      if (entity.type().equals(Type.mention)) {
-        return true;
-      }
-    }
-    return false;
   }
 
   private static OkHttpClient client(final String proxyHost, final int proxyPort) {

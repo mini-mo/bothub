@@ -20,8 +20,8 @@ echo "package done"
 #sleep 5
 #
 #docker run -d -p 9527:9527 $imageName > ~/tmp/bothub_id
-ps -ef | grep bothub | grep -v grep | awk '{print $1}' | xargs kill
+ps -ef | grep bothub | grep -v grep | awk '{print $2}' | xargs kill
 
-nohup java -jar target/bothub.jar 2>&1 > stdout.log
+nohup java -jar target/bothub.jar 2>&1 > stdout.log &
 
 echo "run new instance done"

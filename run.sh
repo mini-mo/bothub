@@ -21,6 +21,7 @@ echo "package done"
 #
 #docker run -d -p 9527:9527 $imageName > ~/tmp/bothub_id
 ps -ef | grep bothub | grep -v grep | awk '{print $2}' | xargs kill
+sleep 5
 
 nohup java -jar target/bothub.jar 2>&1 > stdout.log &
 

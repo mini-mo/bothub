@@ -9,6 +9,5 @@ public class Input {
 
   private final From from;
   private final String action;
-  private final To to;
   private final Content content;
 }

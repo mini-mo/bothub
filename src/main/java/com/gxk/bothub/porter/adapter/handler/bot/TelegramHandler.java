@@ -3,10 +3,8 @@ package com.gxk.bothub.porter.adapter.handler.bot;
 import com.gxk.bothub.domain.Content;
 import com.gxk.bothub.domain.Handler;
 import com.gxk.bothub.domain.Hub;
-import com.gxk.bothub.domain.ImTo;
 import com.gxk.bothub.domain.Input;
 import com.gxk.bothub.domain.TextContent;
-import com.gxk.bothub.domain.To;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.TelegramBot.Builder;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -39,12 +37,7 @@ public class TelegramHandler implements Handler {
       String text = ((TextContent) content).getTitle() + "\n" + String
           .join("\n", ((TextContent) content).getLines());
 
-      To to = input.getTo();
-      String chatId = null;
-      if (to instanceof ImTo) {
-        chatId = ((ImTo) to).getChatId();
-      }
-      bot.execute(new SendMessage(chatId, text));
+      bot.execute(new SendMessage(input.getFrom().getChatId(), text));
     }
   }
 

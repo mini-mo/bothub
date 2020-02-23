@@ -9,6 +9,6 @@ public class Message {
   private String title;
   private List<String> lines;
 
-  private String handler;
+  private String channel;
   private String chatId;
 }

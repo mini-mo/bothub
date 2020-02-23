@@ -1,13 +1,12 @@
 package com.gxk.bothub.porter.adapter.pooling;
 
+import com.google.gson.Gson;
 import com.gxk.bothub.domain.Content;
 import com.gxk.bothub.domain.From;
-import com.gxk.bothub.domain.HttpTrigger;
 import com.gxk.bothub.domain.Hub;
-import com.gxk.bothub.domain.ImTo;
+import com.gxk.bothub.domain.ImFrom;
 import com.gxk.bothub.domain.Input;
 import com.gxk.bothub.domain.TextContent;
-import com.gxk.bothub.domain.To;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.TelegramBot.Builder;
 import com.pengrad.telegrambot.UpdatesListener;
@@ -27,10 +26,12 @@ import org.springframework.stereotype.Component;
 public class Telegram {
 
   private final TelegramBot bot;
+  private final Gson gson;
 
   public Telegram() {
     String botToken = "1066789440:AAGnuE7wz05l47ZzQQ_JReZGdqusUxT3mrQ";
     bot = new Builder(botToken).okHttpClient(client("127.0.0.1", 8001)).build();
+    gson = new Gson();
   }
 
   @PostConstruct
@@ -59,10 +60,9 @@ public class Telegram {
           text = "此处应有妹子图";
         }
 
-        From from = new HttpTrigger("telegram");
+        From from = new ImFrom("telegram", String.valueOf(chatId), gson.toJson(update));
         Content content = new TextContent(text, new ArrayList<>());
-        To to = new ImTo("telegram", String.valueOf(chatId));
-        Input input = new Input(from, "send", to, content);
+        Input input = new Input(from, "send", content);
         Hub.process(input);
       }
       return UpdatesListener.CONFIRMED_UPDATES_ALL;

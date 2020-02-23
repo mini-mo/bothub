@@ -1,7 +1,9 @@
 package com.gxk.bothub.porter.adapter.processor;
 
+import com.gxk.bothub.domain.From;
 import com.gxk.bothub.domain.Handler;
-import com.gxk.bothub.domain.ImTo;
+import com.gxk.bothub.domain.HttpFrom;
+import com.gxk.bothub.domain.ImFrom;
 import com.gxk.bothub.domain.Input;
 import com.gxk.bothub.domain.Processor;
 import java.util.HashMap;
@@ -21,7 +23,7 @@ public class DefaultProcessor implements Processor {
   }
 
   private Handler getHandler(Input input) {
-    Handler handler = handlers.get(((ImTo) input.getTo()).getName());
+    Handler handler = handlers.get((input.getFrom().getName()));
     if (handler == null || !handler.support(input.getAction())) {
       return null;
     }

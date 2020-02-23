@@ -1,13 +1,11 @@
 package com.gxk.bothub.porter.adapter.view.web;
 
-import com.gxk.bothub.domain.HttpTrigger;
-import com.gxk.bothub.domain.Hub;
-import com.gxk.bothub.domain.TextContent;
 import com.gxk.bothub.domain.Content;
 import com.gxk.bothub.domain.From;
-import com.gxk.bothub.domain.ImTo;
+import com.gxk.bothub.domain.HttpFrom;
+import com.gxk.bothub.domain.Hub;
 import com.gxk.bothub.domain.Input;
-import com.gxk.bothub.domain.To;
+import com.gxk.bothub.domain.TextContent;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,13 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MessageApi {
 
-  @PostMapping("/")
+  @PostMapping("")
   public void newMessage(@RequestBody Message message) {
     // message => input
-    From from = new HttpTrigger("raw http");
+    From from = new HttpFrom(message.getChannel(), message.getChatId(), Hub.toJson(message));
     Content content = new TextContent(message.getTitle(), message.getLines());
-    To to = new ImTo(message.getHandler(), message.getChatId());
-    Input input = new Input(from, "send", to, content);
+    Input input = new Input(from, "send", content);
 
     Hub.process(input);
   }

@@ -47,7 +47,11 @@ public class Telegram {
 
         String text = message.text();
         int idx = text.indexOf(" ");
-        text = text.substring(idx).trim();
+        if (idx < 0) {
+          text = "你啥都不说啥意思?";
+        } else {
+          text = text.substring(idx).trim();
+        }
         text = text.replace("吗", "");
         text = text.replace("?", "!");
         text = text.replace("？", "!");
